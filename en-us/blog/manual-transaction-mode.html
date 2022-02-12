@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="MT mode" />
+	<meta name="description" content="introduce MT mode" />
+	<!-- 网页标签标题 -->
+	<title>MT mode</title>
+  <link rel="shortcut icon" href="/img/pixiu-icon-small.png"/>
+	<link rel="stylesheet" href="/build/blogDetail.css" />
+</head>
+<body>
+	<div id="root"><div class="blog-detail-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/en-us/index.html"><img class="logo" src="//img.alicdn.com/tfs/TB1gqL1w4D1gK0jSZFyXXciOVXa-1497-401.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">中</span><div class="header-menu"><img class="header-menu-toggle" src="https://img.alicdn.com/tfs/TB14eEmw7P2gK0jSZPxXXacQpXa-38-32.png"/><ul><li class="menu-item menu-item-normal"><span><a href="/en-us/index.html">HOME</a></span></li><li class="menu-item menu-item-normal"><span><a href="/en-us/docs/overview/what-is-pixiu.html">DOCS</a></span></li><li class="menu-item menu-item-normal"><span><a href="/en-us/docs/developers/developers_dev.html">DEVELOPERS</a></span></li><li class="menu-item menu-item-normal menu-item-normal-active"><span><a href="/en-us/blog/index.html">BLOG</a></span></li><li class="menu-item menu-item-normal"><span><a href="/en-us/community/index.html">COMMUNITY</a></span></li><li class="menu-item menu-item-normal"><span><a href="/en-us/blog/download.html">DOWNLOAD</a></span></li></ul></div></div></header><section class="blog-content markdown-body"><h1>Manual Transaction Mode</h1>
+<p>Review the description in the overview: a distributed global transaction, the whole is a model of <strong>the two-phase commit</strong>. A global transaction consists of several branch transactions that meet the model requirements of <strong>the two-phase commit</strong>, which requires each branch transaction to have its own:</p>
+<ul>
+<li>One phase prepare behavior</li>
+<li>Two phase commit or rollback behavior</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/4420767-e48f0284a037d1df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Overview of a global transaction"></p>
+<p>According to the two phase behavior pattern，We divide the branch transaction into <strong>Automatic (Branch) Transaction Mode</strong> and <strong>Manual (Branch) Transaction Mode</strong>.</p>
+<p>The AT mode（<a href="">Reference Link TBD</a>）is based on the <strong>Relational Database</strong> that <strong>supports local ACID transactions</strong>：</p>
+<ul>
+<li>One phase prepare behavior: In the local transaction, the business data update and the corresponding rollback log record are submitted together.</li>
+<li>Two phase commit behavior: Immediately ended successfully, <strong>Auto</strong> asynchronous batch cleanup of the rollback log.</li>
+<li>Two phase rollback behavior: By rolling back the log, <strong>automatic</strong> generates a compensation operation to complete the data rollback.</li>
+</ul>
+<p>Accordingly, the MT mode does not rely on transaction support for the underlying data resources:</p>
+<ul>
+<li>One phase prepare behavior: Call the prepare logic of <strong>custom</strong> .</li>
+<li>Two phase commit behavior:Call the commit logic of <strong>custom</strong> .</li>
+<li>Two phase rollback behavior:Call the rollback logic of <strong>custom</strong> .</li>
+</ul>
+<p>The so-called MT mode refers to the support of the branch transaction of <strong>custom</strong> into the management of global transactions.</p>
+</section><footer class="footer-container"><div class="footer-body"><img src="//img.alicdn.com/tfs/TB1dGrSwVT7gK0jSZFpXXaTkpXa-4802-1285.png"/><p class="docsite-power">website powered by docsite</p><div class="cols-container"><div class="col col-12"><h3>Vision</h3><p>Seata is an Alibaba open source distributed transaction solution that delivers high performance and easy to use distributed transaction services under a microservices architecture.</p></div><div class="col col-6"><dl><dt>ASF</dt><dd><a href="http://www.apache.org/" target="_self">基金会</a></dd><dd><a href="http://www.apache.org/licenses/" target="_self">证书</a></dd><dd><a href="http://www.apache.org/events/current-event" target="_self">事件</a></dd><dd><a href="http://www.apache.org/foundation/sponsorship.html" target="_self">赞助</a></dd><dd><a href="http://www.apache.org/foundation/thanks.html" target="_self">赞助</a></dd></dl></div><div class="col col-6"><dl><dt>Documentation</dt><dd><a href="/en-us/docs/overview/what-is-pixiu.html" target="_self">What is Pixiu?</a></dd><dd><a href="/en-us/docs/user/quickstart.html" target="_self">Quick Start</a></dd><dd><a href="https://github.com/seata/seata.github.io/issues/new" target="_self">Report a doc issue</a></dd><dd><a href="https://github.com/seata/seata.github.io" target="_self">Edit This Page on GitHub</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2021 Seata</span></div></div></footer></div></div>
+	<script src="https://f.alicdn.com/react/15.4.1/react-with-addons.min.js"></script>
+	<script src="https://f.alicdn.com/react/15.4.1/react-dom.min.js"></script>
+	<script>
+		window.rootPath = '';
+  </script>
+	<script src="/build/blogDetail.js"></script>
+	<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?104e73ef0c18b416b27abb23757ed8ee";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>

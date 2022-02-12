@@ -5,7 +5,5 @@ npm-debug.log
 *.orig
 *.iml
 package-lock.json
-/en-us/
-/zh-cn/
 md_json/
 log

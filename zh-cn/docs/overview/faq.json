@@ -1,0 +1,10 @@
+{
+  "filename": "faq.md",
+  "__html": "<h1>常见问题</h1>\n<p><a href=\"#1\" target=\"_self\">1.Pixiu 目前可以用于生产环境吗</a></p>\n<p><a href=\"#2\" target=\"_self\">2.Pixiu 目前支持高可用吗？</a></p>\n<hr>\n<h3 id='1'>Q: 1.Pixiu 目前可以用于生产环境吗？</h3>\n<p><strong>A:</strong>\n0.4.0版本之后就可以上生产环境，欢迎已经在使用的企业参与此issue:<a href=\"https://github.com/apache/dubbo-go-pixiu/issues/64\">who's using Pixiu</a></p>\n<hr>\n<h3 id='2'>Q: 2.Pixiu 目前支持高可用吗？</h3>\n<p><strong>A:</strong></p>\n<p>目前 Pixiu 仅支持单实例部署，可以和 Nginx 组成无状态多实例集群。</p>\n<hr>\n",
+  "link": "/zh-cn/docs/overview/faq.html",
+  "meta": {
+    "title": "Seata常见问题",
+    "keywords": "Seata",
+    "description": "Seata 常见问题。"
+  }
+}
