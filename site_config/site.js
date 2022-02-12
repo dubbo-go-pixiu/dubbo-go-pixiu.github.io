@@ -2,7 +2,7 @@
 export default {
     rootPath: '',
     port: 8080,
-    domain: 'seata.io', // 站点部署域名，无需协议和path等
+    domain: 'pixiu.github.io', // 站点部署域名，无需协议和path等
     defaultSearch: 'baidu', // 默认搜索引擎，baidu或者google
     defaultLanguage: 'en-us',
     'en-us': {
