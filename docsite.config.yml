@@ -1,0 +1,35 @@
+pages:
+ # key is the dirname of pages in src/pages
+ home:
+  # 首页配置
+  zh-cn:
+   title: 'Pixiu'
+   keywords: '官网,首页'
+   description: 'Dubbo-go-Pixiu官网'
+  # home config
+  en-us:
+   title: 'Pixiu'
+   keywords: 'Official,Pixiu'
+   description: 'Pixiu Official Website'
+ community:
+  # 社区页配置
+  zh-cn:
+   title: '社区'
+   keywords: 'Pixiu,社区'
+   description: 'Dubbo-go-Pixiu社区'
+  # community page config
+  en-us:
+   title: 'Community'
+   keywords: 'Pixiu,Community'
+   description: 'Dubbo-go-Pixiu Community'
+ blog:
+  # 博客列表页配置
+  zh-cn:
+   title: '博客'
+   keywords: 'Pixiu,博客'
+   description: 'Dubbo-go-Pixiu 博客'
+  en-us:
+   # blog list page config
+   title: 'Blog'
+   keywords: 'Dubbo-go-Pixiu,Blog'
+   description: 'Dubbo-go-Pixiu Blog'
