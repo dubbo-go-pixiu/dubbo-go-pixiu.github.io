@@ -112,7 +112,7 @@ export default {
         {
           img: '/img/documents.png',
           title: '改进文档',
-          content: <span>改进<a href="https://github.com/dubbogo/pixiu.github.io">文档</a>。</span>,
+          content: <span>改进<a href="https://github.com/dubbo-go-pixiu/dubbo-go-pixiu.github.io">文档</a>。</span>,
         },
         {
           img: '/img/pullrequest.png',
