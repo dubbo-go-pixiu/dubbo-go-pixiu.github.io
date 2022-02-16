@@ -1,5 +1,11 @@
 {
-  "en-us": [],
+  "en-us": [
+    {
+      "filename": "home.md",
+      "link": "/en-us/docs/home.html",
+      "meta": {}
+    }
+  ],
   "zh-cn": [
     {
       "filename": "blog.md",

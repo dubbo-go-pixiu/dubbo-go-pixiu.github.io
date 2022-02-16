@@ -1,5 +1,11 @@
 {
-  "en-us": [],
+  "en-us": [
+    {
+      "filename": "home.md",
+      "link": "/en-us/blog/home.html",
+      "meta": {}
+    }
+  ],
   "zh-cn": [
     {
       "filename": "dubbo-go-pixiu-animal.md",
