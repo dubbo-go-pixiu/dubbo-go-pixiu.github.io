@@ -1,7 +1,7 @@
 ---
-title: Seata常见问题
-keywords: Seata
-description: Seata 常见问题。
+title: pixiu 常见问题
+keywords: pixiu
+description: pixiu 常见问题。
 ---
 
 # 常见问题
