@@ -1,0 +1,10 @@
+{
+  "filename": "new-contributor-guide_dev.md",
+  "__html": "<h1>新贡献者向导</h1>\n<p>这篇向导旨在给正在准备向 Pixiu 提交贡献的新手提供指导。</p>\n<h3>报告问题</h3>\n<p>您始终可以通过Github <a href=\"https://github.com/apache/dubbo-go-pixiu/issues\">Issues</a> 向 Pixiu 报告问题。</p>\n<h3>发送 pull request</h3>\n<ul>\n<li>参考<a href=\"https://github.com/seata/seata/blob/develop/.github/PULL_REQUEST_TEMPLATE.md\">pull request template</a></li>\n<li>在您发送pull request之前，请在本地进行相应的 CI 检查，具体操作请看如下所示步骤：</li>\n</ul>\n<h4>import 拆分</h4>\n<p>社区推荐代码的 import 块按照所属进行拆分，有一个工具可以自动将import拆分\nimports-formatter -path . -module <a href=\"http://github.com/apache/dubbo-go-pixiu\">github.com/apache/dubbo-go-pixiu</a> -bl false</p>\n<h4>证书检查</h4>\n<p>社区代码必须有 apache的 license，可以通过下列命令自动判断检查或增加license\n<a href=\"https://github.com/apache/skywalking-eyes\">https://github.com/apache/skywalking-eyes</a></p>\n<h4>ci 相关命令</h4>\n<p>排版检查\ngo fmt ./... &amp;&amp; git status &amp;&amp; [[ -z <code>git status -s</code> ]]</p>\n<p>golint 静态检查\nGO111MODULE=on golangci-lint run --timeout=10m -v --disable-all --enable=govet --enable=staticcheck --enable=ineffassign --enable=misspell</p>\n<h4>单测</h4>\n<p>go mod vendor &amp;&amp; go test ./pkg/... -coverprofile=coverage.txt -covermode=atomic</p>\n<h4>集成测试</h4>\n<p>chmod +x start_integrate_test.sh &amp;&amp; chmod +x integrate_test.sh &amp;&amp; ./start_integrate_test.sh</p>\n",
+  "link": "/zh-cn/docs/developers/contributor-guide/new-contributor-guide_dev.html",
+  "meta": {
+    "title": "新贡献者向导",
+    "keywords": "Pixiu",
+    "description": "这篇向导旨在给正在准备向 Pixiu 提交贡献的新手提供指导。"
+  }
+}

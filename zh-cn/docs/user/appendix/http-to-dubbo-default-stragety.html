@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="Dubbo" />
+	<meta name="description" content="HTTP to Dubbo 默认转换协议" />
+	<!-- 网页标签标题 -->
+	<title>HTTP to Dubbo 默认转换协议 v0.0.1</title>
+  <link rel="shortcut icon" href="/img/pixiu-icon-small.png"/>
+	<link rel="stylesheet" href="/build/documentation.css" />
+</head>
+<body>
+	<div id="root"><div class="documentation-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/zh-cn/index.html"><img class="logo" src="/img/pixiu-home-black-logo.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">En</span><div class="header-menu"><img class="header-menu-toggle" src="https://img.alicdn.com/tfs/TB14eEmw7P2gK0jSZPxXXacQpXa-38-32.png"/><ul><li class="menu-item menu-item-normal"><span><a href="/zh-cn/index.html">首页</a></span></li><li class="menu-item menu-item-normal menu-item-normal-active"><span><a href="/zh-cn/docs/overview/what-is-pixiu.html">文档</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/docs/developers/developers_dev.html">开发者</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/blog/index.html">博客</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/community/index.html">社区</a></span></li></ul></div></div></header><div class="bar"><div class="bar-body"><img src="https://img.alicdn.com/tfs/TB1cm8nJwDqK1RjSZSyXXaxEVXa-160-160.png" class="front-img"/><span>文档</span><img src="https://img.alicdn.com/tfs/TB1cm8nJwDqK1RjSZSyXXaxEVXa-160-160.png" class="back-img"/></div></div><section class="content-section"><div class="sidemenu"><div class="sidemenu-toggle"><img src="https://img.alicdn.com/tfs/TB1E6apXHGYBuNjy0FoXXciBFXa-200-200.png"/></div><ul><li class="menu-item menu-item-level-1"><span>概述</span><ul><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/overview/what-is-pixiu.html" target="_self">Pixiu 是什么？</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/overview/terminology.html" target="_self">术语表</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/overview/faq.html" target="_self">FAQ</a></li></ul></li><li class="menu-item menu-item-level-1"><span>用户文档</span><ul><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/user/quickstart.html" target="_self">快速启动</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/user/configurations.html" target="_self">启动参数和配置简介</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>Listener 介绍<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/listener/http.html" target="_self">HTTP Listener 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/listener/http2.html" target="_self">HTTP2 Listener 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/listener/tcp.html" target="_self">TCP Listener 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/listener/triple.html" target="_self">Triple Listener 介绍</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>NetworkFilter 介绍<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/networkfilter/http.html" target="_self">Http NetworkFitler 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/networkfilter/grpc.html" target="_self">Grpc NetworkFitler 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/networkfilter/dubbo.html" target="_self">Dubbo NetworkFitler 介绍</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>HttpFilter 介绍<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/httpfilter/dubbo.html" target="_self">Dubbo HttpFilter 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/httpfilter/ratelimit.html" target="_self">RateLimiter 介绍</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/httpfilter/hystrix.html" target="_self">断路器介绍</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>Adapter 介绍<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/adapter/dubbo.html" target="_self">Dubbo 集群中心 Adapter</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/adapter/springcloud.html" target="_self">Spring Cloud 集群中心 Adapter</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>案例介绍<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/samples/http_proxy.html" target="_self">HTTP代理案例</a></li><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/samples/springcloud.html" target="_self">Spring Cloud 集群案例</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>附录<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/user/appendix/http-to-dubbo-default-stragety.html" target="_self">HTTP to Dubbo 默认转换协议</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/user/deployment.html" target="_self">部署</a></li></ul></li><li class="menu-item menu-item-level-1"><span>开发者指南</span><ul><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><span>Filter 扩展<img style="transform:rotate(-90deg)" class="menu-toggle" src="https://img.alicdn.com/tfs/TB15.Ilw2b2gK0jSZK9XXaEgFXa-26-16.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/dev/filter-extension.html" target="_self">Pixiu Filter 体系介绍</a></li></ul></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/dev/trie.html" target="_self">Trie 前缀树介绍</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/dev/blog.html" target="_self">文档和博客贡献</a></li></ul></li><li class="menu-item menu-item-level-1"><span>质量指标</span><ul><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/user/quality/performance.html" target="_self">性能</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/user/quality/stability.html" target="_self">稳定性</a></li></ul></li></ul></div><div class="doc-content markdown-body"><h1>背景</h1>
+<p>​	通过 Http 提供一个统一的服务提供者视图，用户不用在乎后端Dubbo服务的版本差异，协议差异，通过简单地在Http请求中传递rpc调用的参数，完成一次Rpc调用，通过实现http调用后端dubbo服务，进一步简化后端服务设计的复杂性。</p>
+<h1>目的</h1>
+<p>​	统一Http调用后端dubbo服务的形式，方便网关产品实现 Http 调用转 dubbo 调用的实现，Dubbo能和网关更好的融合。</p>
+<h1>Conception</h1>
+<h2>Dubbo RPC 调用的基本形式</h2>
+<p><img src="/img/user/appendix/img1.png" alt="img"></p>
+<p>希望通过提供Http调用Dubbo的方式简化 Consumer 的Rpc调用流程</p>
+<p><img src="/img/user/appendix/img2.png" alt="img"></p>
+<p>网关会在整个服务调用的过程中承担更多的原本客户端的功能，比如负载均衡，服务治理，安全等能力，外部用户调用服务的时候将更多的关注与调用本身。</p>
+<h2>Http request 和 Http response 的格式</h2>
+<p>request的URL和Header中包含RPC调用的元信息，包含服务名，方法名，服务分组，服务版本，request 的 body 中包含请求的参数，参数是 <strong>json list</strong> 的格式, 如果没有参数则为 <em><strong>null</strong></em></p>
+<p>http response 中包含请求的处理状态，返回结果或者调用的错误类型以及错误具体信息，返回的body中只包含一个 <em><strong>json object</strong></em>，这个object中包含 <em><strong>code</strong></em>，<em><strong>result</strong></em>，<em><strong>error</strong></em></p>
+<p>通过 code 表示返回的具体状态，result 和 error 在返回中只会返回其中一个，分别是调用的返回结果，调用返回的错误信息。</p>
+<h3>Http request</h3>
+<h4>Http 请求的方法</h4>
+<p>只能为 <strong>POST</strong> 方法</p>
+<h4>Http 请求的 URL</h4>
+<p>格式：<a href="http://host/service/method">http://host/ {service} / {method</a>} or <a href="https://host/service/method">https://host/ {service} / {method</a>}</p>
+<ul>
+<li>service 是调用的服务名，对应于Dubbo message body中的 service Name</li>
+<li>method 是调用的方法名，对应于Dubbo message body中的 method Name</li>
+</ul>
+<p>服务名和方法名都应该和后端服务的声明一致</p>
+<p>如果URL中无法获取到service和method，应该直接返回</p>
+<table>
+<thead>
+<tr>
+<th>http code</th>
+<th>code</th>
+<th>detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>3</td>
+<td>service or method not provided</td>
+</tr>
+</tbody>
+</table>
+<h4>Http 请求的Header</h4>
+<p>Header中必须包含以下条目：</p>
+<ul>
+<li>x-dubbo-http1.1-dubbo-version</li>
+</ul>
+<p>表明这个Http 请求是一个Http转dubbo的请求，目前支持Dubbo 协议和 triple 协议，可配置的选项为：</p>
+<ul>
+<li>
+<ul>
+<li>x-dubbo-http1.1-dubbo-version: triple</li>
+<li>x-dubbo-http1.1-dubbo-version: dubbo</li>
+</ul>
+</li>
+</ul>
+<p>​      前者表示这是转化为triple协议，后者表示转化为dubbo协议</p>
+<p>可选参数：</p>
+<ul>
+<li>x-dubbo-service-version 如果提供了应该填充到Dubbo message 的Serviceversion字段中.</li>
+<li>x-dubbo-service-group  如果提供了应该在attachment 添加 group 字段并把对应的值进行填充。</li>
+</ul>
+<h4>Http 请求的Body</h4>
+<p>body中包含请求的参数，body中只包含一个 <em><strong>Json object</strong></em> 对象</p>
+<p>这个对象目前包含两个字段：</p>
+<ul>
+<li>param</li>
+</ul>
+<p>param 的值类型为 list，标识调用方法的参数，顺序和方法签名中的参数顺序一致</p>
+<p>这里使用object组装请求参数是为了协议能够向后兼容，body中的对象可能会增加新的字段。</p>
+<h5>基本类型在 Json Java Go 中的映射关系</h5>
+<table>
+<thead>
+<tr>
+<th>Json Type</th>
+<th>Java Type</th>
+<th>Golang Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>java.lang.Long</td>
+<td>int64</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>java.lang.Double</td>
+<td>float64</td>
+</tr>
+<tr>
+<td>String</td>
+<td>java.lang.String</td>
+<td>string</td>
+</tr>
+<tr>
+<td>Null</td>
+<td>null</td>
+<td>nil</td>
+</tr>
+<tr>
+<td>Bool</td>
+<td>java.lang.Boolean</td>
+<td>bool</td>
+</tr>
+<tr>
+<td>List</td>
+<td>java.lang.List</td>
+<td>silice</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>java.lang.Map</td>
+<td>map</td>
+</tr>
+</tbody>
+</table>
+<p>通过对基本类型映射关系的定义简化网关配置，对于只使用基本配置的转化，网关应该可以在不使用额外配置的情况下完成转化的</p>
+<h5>Body 处理异常时的处理策略</h5>
+<ol>
+<li>调用方提供的请求参数 Json 解析错误，返回状态码 400</li>
+<li>调用的时候，无法确定参数的具体类型，例如，用户使用的自定义类型，但是没有在网关配置具体的类型名，应该返回状态码 400</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>http code</th>
+<th>code</th>
+<th>detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>3</td>
+<td>argument parse error</td>
+</tr>
+<tr>
+<td>400</td>
+<td>3</td>
+<td>argument type info not found</td>
+</tr>
+</tbody>
+</table>
+<p>在以上条件都符合时，一个Http 调用可以被转化成为 Dubbo 协议的调用，只要网关能够成功进行请求的转化，则网关回复调用方的时候，Http 状态码都应该是 200 OK，至于调用方调用后端服务出现错误的信息，应该放在 body 中的 code 以及 error 字段中。</p>
+<h3>http response</h3>
+<p>在请求经过后端返回之后，需要将一下信息传递给调用方：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>status</td>
+<td>返回的状态，在dubbo response 的header的status 中</td>
+</tr>
+<tr>
+<td>返回值</td>
+<td>调用成功返回的结果，如果没有返回值，则result 的值为 null</td>
+</tr>
+<tr>
+<td>返回异常</td>
+<td>调用失败，产生异常，返回异常的具体message</td>
+</tr>
+</tbody>
+</table>
+<p>返回值和返回异常只能出现一项</p>
+<p>code 和 grpc 中的 status code 一致 详细的 code 及其含义见 <a href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">https://grpc.github.io/grpc/core/md_doc_statuscodes.html</a></p>
+<h4>返回异常的处理：</h4>
+<p>dubbo 中的异常以hessian2 的 class 类型返回，返沪的error中只需要对应的message 字段即可</p>
+<h2>Dubbo 协议的具体转化</h2>
+<h3>Dubbo 协议的具体介绍 可以见文章</h3>
+<p><a href="https://dubbo.apache.org/en/blog/2018/10/05/introduction-to-the-dubbo-protocol/">https://dubbo.apache.org/en/blog/2018/10/05/introduction-to-the-dubbo-protocol/</a></p>
+<h3>Dubbo 协议的 message 格式</h3>
+<p><img src="https://dubbo.apache.org/imgs/dev/dubbo_protocol_header.png" alt="img"></p>
+<h4>Dubbo Header的封装要求</h4>
+<table>
+<thead>
+<tr>
+<th>bits</th>
+<th>Name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 - 15</td>
+<td>Magic Number</td>
+<td>必须为 0xdabb</td>
+</tr>
+<tr>
+<td>16</td>
+<td>message 的类型</td>
+<td>必须为 1 （request）</td>
+</tr>
+<tr>
+<td>17</td>
+<td>2-way</td>
+<td>必须为 1 （需要服务端返回值）</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Event</td>
+<td>必须为 0 不支持事件类型</td>
+</tr>
+<tr>
+<td>19 - 23</td>
+<td>序列化类型</td>
+<td>可以扩展实现Hessian，Json等序列化类型，类型编号如下表</td>
+</tr>
+<tr>
+<td>24 - 31</td>
+<td>Status</td>
+<td>表示 response 的状态，见Status 处理要求</td>
+</tr>
+<tr>
+<td>32 - 95</td>
+<td>Request Id</td>
+<td>客户端的请求ID，可以根据需要自行定义</td>
+</tr>
+<tr>
+<td>96 - 127</td>
+<td>Data length</td>
+<td>请求体的长度，请求体的大小</td>
+</tr>
+</tbody>
+</table>
+<p>序列化类型编号：</p>
+<table>
+<thead>
+<tr>
+<th>Serialization Type</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hessian2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Compact Java</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Fast Json</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Native Java</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>请求Header中的字段应该以大端的形式封装，发送到服务端</p>
+<h4>Dubbo Body</h4>
+<p>请求的body应该包含以下内容：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dubbo Version</td>
+<td>根据网关的配置，或者Http请求获取</td>
+</tr>
+<tr>
+<td>Service Name</td>
+<td>服务名</td>
+</tr>
+<tr>
+<td>Method Name</td>
+<td>调用方法名，采用泛化调用的方式，此项目固定为“$invoke”</td>
+</tr>
+<tr>
+<td>Method parameter types</td>
+<td>参数类型，泛化调用有固定值 &quot;Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/Object;&quot;</td>
+</tr>
+<tr>
+<td>Method arguments</td>
+<td>使用配置的序列化方式将对应的参数序列化，按照用户传入的参数的顺序放入参数</td>
+</tr>
+</tbody>
+</table>
+<p>以上的各个项目在使用了指定的序列化形式之后，按照上表指定的顺序进行序列化。</p>
+<p>attachment 目前不转化</p>
+<p><em><strong>注意</strong></em>：</p>
+<p>使用文本类型的序列化（Json） 在每一个序列化对象后边要加上行分割符( <em><strong>&quot;\n&quot;</strong></em> or <em><strong>&quot;\r\n&quot;</strong></em> )</p>
+<p>Java 中在使用FastJson 编解码的时候使用了BufferedReader，每次取buffer中的对象的时候，会先调用BufferReader的readLine方法，此方法分割行依靠 ‘/n’ ， ’/r/n‘</p>
+<p>以下给出了Dubbo 协议中返回header中的status对应于GRPC status的对应列表</p>
+<h5>Status 的处理</h5>
+<p>Dubbo resposne status 中，OK延续使用grpc的 OK code，其余的 status Number编号紧接着 grpc 的16个 code进行编号</p>
+<p>对应的error详情是 response 中异常的 message。</p>
+<table>
+<thead>
+<tr>
+<th>Dubbo State</th>
+<th>Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ResponseStatus::Ok</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ResponseStatus::ClientTimeout</td>
+<td>130</td>
+</tr>
+<tr>
+<td>ResponseStatus::ServerTimeout</td>
+<td>131</td>
+</tr>
+<tr>
+<td>ResponseStatus::ServiceNotFound</td>
+<td>12</td>
+</tr>
+<tr>
+<td>ResponseStatus::ServerThreadpoolExhaustedError</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ResponseStatus::ClientError</td>
+<td>\</td>
+</tr>
+<tr>
+<td>ResponseStatus::ServerError</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ResponseStatus::ServiceError</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ResponseStatus::BadResponse</td>
+<td>13</td>
+</tr>
+<tr>
+<td>ResponseStatus::BadRequest</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<h2>Triple 协议的具体转化</h2>
+<p>Triple 是基于GRPC的，定义在Http2 协议之上</p>
+<h3>Triple中RPC调用的元信息</h3>
+<h4>Triple 通过 URL 传递调用的服务名和方法名</h4>
+<p>格式： <a href="http://host/service/method">http://host/ {service} / {method</a>}</p>
+<p>我们的规范兼容 Triple 通过http2传递参数的形式，尽量做到dubbo 和 triple 的统一。</p>
+<h4>Header Frame</h4>
+<p>header 中应该包含以下条目</p>
+<ul>
+<li>Content-Type：<em><strong>application/grpc-proto</strong></em></li>
+</ul>
+<p>标识这是一个 triple 协议的rpc调用</p>
+<ul>
+<li>x-dubbo-service-group</li>
+</ul>
+<p>指明调用的服务的分组</p>
+<ul>
+<li>x-dubbo-service-version</li>
+</ul>
+<p>指明调用的服务的版本</p>
+<h4>Data frame</h4>
+<p>Triple协议将请求参数放在Body中，在triple中，如果服务中的方法定义能够使用pb序列化，则只有一层序列化，如果需要用到其他的序列化，则需要使用TripleRequestWrapper</p>
+<p>对参数进行包装。</p>
+<p>我们推广使用 <em><strong>Triple + pb</strong></em> 的序列化形式，服务的提供方需要给出服务的 proto 定义，对于triple协议网关对于***triple + pb***  的转化是比较容易实现的，如果用户没有提供proto定义，需要返回信息：</p>
+<table>
+<thead>
+<tr>
+<th>http code</th>
+<th>code</th>
+<th>detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td>3</td>
+<td>argument type info not found</td>
+</tr>
+</tbody>
+</table>
+<h3></h3>
+</div></section><footer class="footer-container"><div class="footer-body"><img src="/img/pixiu-logo-v4.png"/><p class="docsite-power">website powered by docsite</p><div class="cols-container"><div class="col col-12"><h3>愿景</h3><p>Pixiu 是一款 Dubbo 生态下的高性能 API 网关和多语言解决方案 Sidecar</p></div><div class="col col-6"><dl><dt>ASF</dt><dd><a href="http://www.apache.org/" target="_self">基金会</a></dd><dd><a href="http://www.apache.org/licenses/" target="_self">证书</a></dd><dd><a href="http://www.apache.org/events/current-event" target="_self">事件</a></dd><dd><a href="http://www.apache.org/foundation/sponsorship.html" target="_self">赞助</a></dd><dd><a href="http://www.apache.org/foundation/thanks.html" target="_self">赞助</a></dd></dl></div><div class="col col-6"><dl><dt>文档</dt><dd><a href="/zh-cn/docs/overview/what-is-pixiu.html" target="_self">Pixiu 是什么？</a></dd><dd><a href="/zh-cn/docs/user/quickstart.html" target="_self">快速开始</a></dd><dd><a href="https://github.com/dubbogo/pixiu.github.io/issues/new" target="_self">报告文档问题</a></dd><dd><a href="https://github.com/dubbogo/pixiu.github.io" target="_self">在Github上编辑此文档</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2022 Pixiu</span></div></div></footer></div></div>
+	<script src="https://f.alicdn.com/react/15.4.1/react-with-addons.min.js"></script>
+	<script src="https://f.alicdn.com/react/15.4.1/react-dom.min.js"></script>
+	<script>
+		window.rootPath = '';
+  </script>
+	<script src="/build/documentation.js"></script>
+	<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?104e73ef0c18b416b27abb23757ed8ee";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>

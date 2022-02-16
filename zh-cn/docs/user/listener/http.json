@@ -1,0 +1,10 @@
+{
+  "filename": "http.md",
+  "__html": "<h3>Http Listener</h3>\n<p>Http Listener 是专门负载接收 HTTP 请求的 Listener，它可以设置 HTTP 监听的地址和端口。它可以通过如下配置进行引入。</p>\n<pre><code>static_resources:\n  listeners:\n    - name: &quot;net/http&quot;\n      protocol_type: &quot;HTTP&quot; # 表明是引入 HTTP Listener\n      address:\n        socket_address:\n          address: &quot;0.0.0.0&quot; # 地址\n          port: 8883 # 端口\n</code></pre>\n<p>Http Listener 的具体实现可以参考 <code>pkg/listener/http</code>。</p>\n<p>有关 HTTP Listener 的案例，可以参考：</p>\n<ul>\n<li>HTTP to Dubbo 请求的转换，<a href=\"/zh-cn/docs/user/samples/http_to_dubbo.html\">案例</a></li>\n<li>HTTP 请求代理，<a href=\"/zh-cn/docs/user/samples/http_proxy.html\">案例</a></li>\n</ul>\n<p>目前也支持 HTTPS 协议。可以将 <code>protocol_type</code> 修改为 <code>HTTPS</code>。并且添加 <code>domains</code> 和 <code>certs_dir</code> 来指定域名和 cert 文件目录。</p>\n<pre><code>  listeners:\n    - name: &quot;net/http&quot;\n      protocol_type: &quot;HTTPS&quot;\n      address:\n        socket_address:\n          domains:\n            - &quot;sample.domain.com&quot;\n            - &quot;sample.domain-1.com&quot;\n            - &quot;sample.domain-2.com&quot;\n          certs_dir: $PROJECT_DIR/cert\n</code></pre>\n<p>具体案例可以查看 <a href=\"/zh-cn/docs/user/samples/https.html\">案例</a></p>\n",
+  "link": "/zh-cn/docs/user/listener/http.html",
+  "meta": {
+    "title": "Http Listener 介绍",
+    "keywords": "Http Listener",
+    "description": "Http Listener 介绍和使用"
+  }
+}
