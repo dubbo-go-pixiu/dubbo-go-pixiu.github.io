@@ -8,14 +8,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x]
+        node-version: [8.16.0]
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 8.16.0
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 8.16.0
     - name: Npm install and build
       run: |
         npm install

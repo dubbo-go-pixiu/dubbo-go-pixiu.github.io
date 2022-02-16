@@ -10,3 +10,4 @@ package-lock.json
 /index.html
 md_json/
 log
+build/

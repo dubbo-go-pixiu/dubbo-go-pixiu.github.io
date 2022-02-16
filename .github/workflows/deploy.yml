@@ -11,13 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Use Node.js 10.x
+    - name: Use Node.js 8.16.0
       uses: actions/setup-node@v1
       with:
-        node-version: 10.x
+        node-version: 8.16.0
     - name: Build
       run: |
-        npm install && npm run build && mkdir deploy-dist && cp -R zh-cn/ en-us/ build/ img/ md_json/ site_config/ schema/ deploy-dist/ && mv .htaccess *.html deploy-dist/
+        npm install && npm install docsite@1.3.9 -g && docsite build && mkdir deploy-dist && cp -R zh-cn/ en-us/ build/ img/ md_json/ site_config/ deploy-dist/ && mv .htaccess *.html deploy-dist/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2.8.0
       env:
