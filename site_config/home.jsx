@@ -8,7 +8,7 @@ export default {
             buttons: [
                 {
                     text: '快速入门',
-                    link: '/zh-cn/docs/overview/what-is-seata.html',
+                    link: '/zh-cn/docs/overview/what-is-pixiu.html',
                     type: 'primary',
                 },
                 {
