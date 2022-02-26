@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="Pixiu 介绍" />
+	<meta name="description" content="Filter通常是网关最重要的一部分，那Pixiu的过滤器链是如何运行的呢" />
+	<!-- 网页标签标题 -->
+	<title>谈谈Pixiu的Filter</title>
+  <link rel="shortcut icon" href="/img/pixiu-icon-small.png"/>
+	<link rel="stylesheet" href="/build/blogDetail.css" />
+</head>
+<body>
+	<div id="root"><div class="blog-detail-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/zh-cn/index.html"><img class="logo" src="//img.alicdn.com/tfs/TB1gqL1w4D1gK0jSZFyXXciOVXa-1497-401.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">En</span><div class="header-menu"><img class="header-menu-toggle" src="https://img.alicdn.com/tfs/TB14eEmw7P2gK0jSZPxXXacQpXa-38-32.png"/><ul><li class="menu-item menu-item-normal"><span><a href="/zh-cn/index.html">首页</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/docs/overview/what-is-pixiu.html">文档</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/docs/developers/developers_dev.html">开发者</a></span></li><li class="menu-item menu-item-normal menu-item-normal-active"><span><a href="/zh-cn/blog/index.html">博客</a></span></li><li class="menu-item menu-item-normal"><span><a href="/zh-cn/community/index.html">社区</a></span></li></ul></div></div></header><section class="blog-content markdown-body"><h2><strong>Filter的生命周期</strong></h2>
+<p>Pixiu作为一个面向云原生的gateway，通过简单的配置即可代理Http to Dubbo 2、Tripe甚至是Spring Cloud的请求。那Filter是怎样运行的呢？</p>
+<p>首先<strong>Filter Plugin</strong>向<strong>Filter Manager</strong>注册自己**，<strong>然后</strong>Filter Manager<strong>根据配置创建好</strong>Filter Factory<strong>并持有它们，等待请求来临时，<strong>Manager</strong>创建一个一次性的用于此次请求的Filter Chain，然后利用</strong>Factory<strong>创建好</strong>Decode/Encode Filter<strong>并把它们加入链中，然后按照顺序去运行Decode Filter，然后去请求</strong>Upstream**，拿到Response再反向运行Encode Filter，让Filter可以访问到Response。</p>
+<p>几个关键的概念：</p>
+<p><strong>Filter Manager</strong></p>
+<blockquote>
+<p>Filter的Manger。。。</p>
+</blockquote>
+<pre><code class="language-go"><span class="hljs-comment">// FilterManager manage filters</span>
+<span class="hljs-keyword">type</span> FilterManager <span class="hljs-keyword">struct</span> {
+   filters       <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]HttpFilterFactory
+   filtersArray  []*HttpFilterFactory
+}
+</code></pre>
+<p><strong>Filter Plugin</strong>：定义了Filter的（唯一的）名字和描述如何去创建一个Filter Factory。</p>
+<blockquote>
+<p>其实结合Filter Factory的定义，可以认为Plugin是Filter Factory的Factory</p>
+</blockquote>
+<pre><code class="language-go"><span class="hljs-comment">// HttpFilterPlugin describe plugin</span>
+HttpFilterPlugin <span class="hljs-keyword">interface</span> {
+   <span class="hljs-comment">// Kind returns the unique kind name to represent itself.</span>
+   Kind() <span class="hljs-keyword">string</span>
+
+   <span class="hljs-comment">// CreateFilterFactory return the filter factory</span>
+   CreateFilterFactory() (HttpFilterFactory, error)
+}
+</code></pre>
+<p><strong>Filter Factory</strong>：定义了Filter自身的配置，并且在请求来临时创建真实的Filter并把它添加到FilterChain中</p>
+<blockquote>
+<ul>
+<li>Config() 的目的是能让Filter Manager能够有机会把配置交给Factory（此时golang泛型还没有落地）</li>
+<li>Apply() 在配置被注入到Factory后，有机会对config做一些检查和提前做一些初始化的工作</li>
+<li>PrepareFilterChain() 创建Filter并加入Filter Chain</li>
+</ul>
+</blockquote>
+<pre><code class="language-go"><span class="hljs-comment">// HttpFilterFactory describe http filter</span>
+HttpFilterFactory <span class="hljs-keyword">interface</span> {
+   <span class="hljs-comment">// Config Expose the config so that Filter Manger can inject it, so it must be a pointer</span>
+   Config() <span class="hljs-keyword">interface</span>{}
+
+   <span class="hljs-comment">// Apply After the config is injected, check it or make it to default</span>
+   Apply() error
+
+   <span class="hljs-comment">// PrepareFilterChain create filter and append it to FilterChain</span>
+   <span class="hljs-comment">//</span>
+   <span class="hljs-comment">// Be Careful !!! Do not pass the Factory's config pointer to the Filter instance,</span>
+   <span class="hljs-comment">// Factory's config may be updated by FilterManager</span>
+   PrepareFilterChain(ctx *http.HttpContext, chain FilterChain) error
+}
+</code></pre>
+<p><strong>Decode/Encode Filter：<strong>Filter分为两个部分，<strong>Decode</strong>在实际请求</strong>Upstream</strong>之前，所以可以做一些鉴权、限流，把请求在gateway层拦截掉。<strong>Eecode</strong>则运行在获得<strong>Upstream</strong>的Response之后，所以可以对返回Log甚至修改Response。</p>
+<blockquote>
+<p>一个Filter可以即是Decode Filter，又是Encode Filter，没有限制！</p>
+<p>假设有A、B、C三个Filter，都是Decode/Encode Filter，如果配置的顺序是A、B、C，那么运行将会是下面这样</p>
+<p>在Decode阶段 A-&gt;B-&gt;C，而在Encode阶段，顺序将会反过来！C-&gt;B-&gt;A</p>
+</blockquote>
+<pre><code class="language-go"><span class="hljs-comment">// decode filters will be invoked in the config order: A、B、C, and decode filters will be</span>
+<span class="hljs-comment">// invoked in the reverse order: C、B、A</span>
+HttpDecodeFilter <span class="hljs-keyword">interface</span> {
+   Decode(ctx *http.HttpContext) FilterStatus
+}
+
+<span class="hljs-comment">// HttpEncodeFilter after invoke upstream,</span>
+<span class="hljs-comment">// decode filters will be invoked in the reverse order</span>
+HttpEncodeFilter <span class="hljs-keyword">interface</span> {
+   Encode(ctx *http.HttpContext) FilterStatus
+}
+</code></pre>
+<p>更详细的，每个Decode/Encode Filter可以返回一个FilterStatus来决定继续还是就在这里停下！比如JWT鉴权，token无效时就要及时把401返回给Downstream。当然Decode Filter发出的停止命令只会终止Decode阶段，至于为什么？想想如何做一个Access Log Filter，能在请求失败时也把失败的结果记录下吧来！</p>
+<h2><strong>怎样编写一个自定义Filter</strong></h2>
+<p>我们来尝试写一个简单的Filter，这个Filter将会有简单的配置，在Decode阶段把请求的Body Log出来，并翻转后作为Mock的返回值。最后在Encode阶段根据配置把返回值Log出来。</p>
+<p>1.首先创建一个Filter</p>
+<pre><code class="language-go"><span class="hljs-keyword">type</span> DemoFilter <span class="hljs-keyword">struct</span> {
+   logPrefix <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f *DemoFilter)</span> <span class="hljs-title">Decode</span><span class="hljs-params">(ctx *contexthttp.HttpContext)</span> <span class="hljs-title">filter</span>.<span class="hljs-title">FilterStatus</span></span> {
+   body, _ := ioutil.ReadAll(ctx.Request.Body)
+   logger.Infof(<span class="hljs-string">"request body: %s"</span>, body)
+
+   <span class="hljs-comment">//reverse res str</span>
+   runes := []<span class="hljs-keyword">rune</span>(<span class="hljs-keyword">string</span>(body))
+   <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">len</span>(runes)/<span class="hljs-number">2</span>; i += <span class="hljs-number">1</span> {
+      runes[i], runes[<span class="hljs-built_in">len</span>(runes)<span class="hljs-number">-1</span>-i] = runes[<span class="hljs-built_in">len</span>(runes)<span class="hljs-number">-1</span>-i], runes[i]
+   }
+   reverse := <span class="hljs-keyword">string</span>(runes)
+
+   <span class="hljs-comment">//mock response</span>
+   ctx.SendLocalReply(<span class="hljs-number">200</span>, []<span class="hljs-keyword">byte</span>(reverse))
+   <span class="hljs-keyword">return</span> filter.Stop
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f *DemoFilter)</span> <span class="hljs-title">Encode</span><span class="hljs-params">(ctx *contexthttp.HttpContext)</span> <span class="hljs-title">filter</span>.<span class="hljs-title">FilterStatus</span></span> {
+   res := ctx.SourceResp.(<span class="hljs-keyword">string</span>)
+   logger.Infof(<span class="hljs-string">"%s: %s"</span>, f.logPrefix, res)
+   <span class="hljs-keyword">return</span> filter.Continue
+}
+</code></pre>
+<p>2.创建Filter Factory</p>
+<pre><code class="language-go"><span class="hljs-keyword">type</span> (
+	DemoFilterFactory <span class="hljs-keyword">struct</span> {
+		conf *Config
+	}
+	<span class="hljs-comment">// Config describe the config of Filter</span>
+	Config <span class="hljs-keyword">struct</span> {
+		LogPrefix <span class="hljs-keyword">string</span> <span class="hljs-string">`yaml:"logPrefix,omitempty"`</span>
+	}
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f *DemoFilterFactory)</span> <span class="hljs-title">PrepareFilterChain</span><span class="hljs-params">(ctx *contexthttp.HttpContext, chain filter.FilterChain)</span> <span class="hljs-title">error</span></span> {
+   demo := &amp;DemoFilter{logPrefix: f.conf.LogPrefix}
+
+   chain.AppendDecodeFilters(demo)
+   chain.AppendEncodeFilters(demo)
+   <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f *DemoFilterFactory)</span> <span class="hljs-title">Config</span><span class="hljs-params">()</span> <span class="hljs-title">interface</span></span>{} {
+   <span class="hljs-keyword">return</span> f.conf
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f *DemoFilterFactory)</span> <span class="hljs-title">Apply</span><span class="hljs-params">()</span> <span class="hljs-title">error</span></span> {
+   <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>
+}
+</code></pre>
+<p>3.创建Filter Plugin，并注册自己</p>
+<pre><code class="language-go"><span class="hljs-comment">//important</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span> {
+   filter.RegisterHttpFilter(&amp;Plugin{})
+}
+
+<span class="hljs-keyword">type</span> Plugin <span class="hljs-keyword">struct</span> {
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(p *Plugin)</span> <span class="hljs-title">Kind</span><span class="hljs-params">()</span> <span class="hljs-title">string</span></span> {
+   <span class="hljs-keyword">return</span> <span class="hljs-string">"dgp.filters.demo"</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(p *Plugin)</span> <span class="hljs-title">CreateFilterFactory</span><span class="hljs-params">()</span> <span class="hljs-params">(filter.HttpFilterFactory, error)</span></span> {
+	<span class="hljs-keyword">return</span> &amp;DemoFilterFactory{conf: &amp;Config{}}, <span class="hljs-literal">nil</span>
+}
+</code></pre>
+<p>4.配置文件中配置此Filter，并启动Pixiu</p>
+<pre><code class="language-yaml"><span class="hljs-attr">static_resources:</span>
+  <span class="hljs-attr">listeners:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">"net/http"</span>
+      <span class="hljs-attr">protocol_type:</span> <span class="hljs-string">"HTTP"</span>
+      <span class="hljs-attr">address:</span>
+        <span class="hljs-attr">socket_address:</span>
+          <span class="hljs-attr">address:</span> <span class="hljs-string">"0.0.0.0"</span>
+          <span class="hljs-attr">port:</span> <span class="hljs-number">8888</span>
+      <span class="hljs-attr">filter_chains:</span>
+          <span class="hljs-attr">filters:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">dgp.filter.httpconnectionmanager</span>
+              <span class="hljs-attr">config:</span>
+                <span class="hljs-attr">route_config:</span>
+                  <span class="hljs-attr">routes:</span>
+                    <span class="hljs-bullet">-</span> <span class="hljs-attr">match:</span>
+                        <span class="hljs-attr">prefix:</span> <span class="hljs-string">"/"</span>
+                <span class="hljs-attr">http_filters:</span>
+                  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">dgp.filters.demo</span>
+                    <span class="hljs-attr">config:</span>
+</code></pre>
+<p>5.访问并查看日志与结果</p>
+<pre><code class="language-shell">curl localhost:8888/demo -d "eiv al tse’c"
+
+c’est la vie% 
+</code></pre>
+<p>日志</p>
+<pre><code>2022-02-19T20:20:11.900+0800    INFO    demo/demo.go:62 request body: eiv al tse’c
+2022-02-19T20:20:11.900+0800    INFO    demo/demo.go:71 : eiv al tse’c
+</code></pre>
+</section><footer class="footer-container"><div class="footer-body"><img src="//img.alicdn.com/tfs/TB1dGrSwVT7gK0jSZFpXXaTkpXa-4802-1285.png"/><p class="docsite-power">website powered by docsite</p><div class="cols-container"><div class="col col-12"><h3>愿景</h3><p>Pixiu 是一款 Dubbo 生态下的高性能 API 网关和多语言解决方案 Sidecar</p></div><div class="col col-6"><dl><dt>ASF</dt><dd><a href="http://www.apache.org/" target="_self">基金会</a></dd><dd><a href="http://www.apache.org/licenses/" target="_self">证书</a></dd><dd><a href="http://www.apache.org/events/current-event" target="_self">事件</a></dd><dd><a href="http://www.apache.org/foundation/sponsorship.html" target="_self">赞助</a></dd><dd><a href="http://www.apache.org/foundation/thanks.html" target="_self">赞助</a></dd></dl></div><div class="col col-6"><dl><dt>文档</dt><dd><a href="/zh-cn/docs/overview/what-is-pixiu.html" target="_self">Pixiu 是什么？</a></dd><dd><a href="/zh-cn/docs/user/quickstart.html" target="_self">快速开始</a></dd><dd><a href="https://github.com/dubbogo/pixiu.github.io/issues/new" target="_self">报告文档问题</a></dd><dd><a href="https://github.com/dubbogo/pixiu.github.io" target="_self">在Github上编辑此文档</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2022 Pixiu</span></div></div></footer></div></div>
+	<script src="https://f.alicdn.com/react/15.4.1/react-with-addons.min.js"></script>
+	<script src="https://f.alicdn.com/react/15.4.1/react-dom.min.js"></script>
+	<script>
+		window.rootPath = '';
+  </script>
+	<script src="/build/blogDetail.js"></script>
+	<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?104e73ef0c18b416b27abb23757ed8ee";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</body>
+</html>
