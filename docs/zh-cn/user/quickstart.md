@@ -137,3 +137,28 @@ curl -X POST 'http://localhost:8883/UserService/com.dubbogo.pixiu.UserService/Ge
 # 返回值 {"age":15,"code":1,"iD":"0001","name":"tc","time":"2021-08-01T18:08:41+08:00"}
 
 ```
+
+#### docker示例
+```shell
+docker pull phial3/dubbo-go-pixiu:latest
+
+docker run --name pixiuname -p 8883:8883 \
+    -v /yourpath/conf.yaml:/etc/pixiu/conf.yaml \
+    -v /yourpath/log.yml:/etc/pixiu/log.yml \
+    apache/dubbo-go-pixiu:latest
+
+# http请求调用dubbo服务转换,首先启动provider，这里使用zookeeper作为注册中心
+cd samples/dubbogo/simple/resolve/server
+
+# 添加需要的环境变量，指定provider的配置文件位置
+export DUBBO_GO_CONFIG_PATH="../profiles/dev/server.yml"
+export APP_LOG_CONF_FILE="../profiles/dev/log.yml"
+
+# 启动provider
+go run server.go user.go
+
+# 进入到test目录下，启动test示例
+cd samples/dubbogo/simple/resolve/test
+
+go test  pixiu_test.go
+```
