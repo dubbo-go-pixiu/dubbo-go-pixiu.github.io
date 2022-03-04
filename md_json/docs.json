@@ -19,7 +19,13 @@
     {
       "filename": "filter-extension.md",
       "link": "/zh-cn/docs/dev/filter-extension.html",
-      "meta": {}
+      "meta": {
+        "title": "Pixiu Filter体系介绍",
+        "keywords": "Pixiu 介绍",
+        "description": "",
+        "author": "@mark4z",
+        "date": "2022-02-19"
+      }
     },
     {
       "filename": "trie.md",
