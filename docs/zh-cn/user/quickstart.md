@@ -114,7 +114,7 @@ Client 就是简单的 HTTP Client 实现，但是需要按照前文提及的 HT
 
 ```
 # cd 到案例总目录
-cd samples/dubbo/simple/
+cd samples/dubbogo/simple/
 
 # 进行环境准备，启动 zk 和准备对应配置文件
 ./start.sh prepare resolve
