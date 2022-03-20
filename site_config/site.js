@@ -102,7 +102,7 @@ export default {
                 },
             ],
         },
-        copyright: 'Copyright © 2021 Seata',
+        copyright: 'Copyright © 2022 Pixiu',
     },
     'zh-cn': {
         pageMenu: [
