@@ -153,7 +153,11 @@
     {
       "filename": "deployment.md",
       "link": "/zh-cn/docs/user/deployment.html",
-      "meta": {}
+      "meta": {
+        "title": "Pixiu 部署文档",
+        "keywords": "Pixiu 部署",
+        "description": "Pixiu 部署文档"
+      }
     },
     {
       "filename": "dubbo.md",

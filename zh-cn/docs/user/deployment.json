@@ -1,6 +1,10 @@
 {
   "filename": "deployment.md",
-  "__html": "<p>欢迎认领补充此文档。</p>\n",
+  "__html": "<h1>部署文档</h1>\n<h2>一、Docker镜像部署</h2>\n<p>注：首先确认本机已经安装好docker并且启动</p>\n<h3>1、从docker hub 拉取 pixiu 镜像</h3>\n<p><code>docker pull phial3/dubbo-go-pixiu:latest</code></p>\n<h3>2、按照需求准备pixiu配置</h3>\n<h4><a href=\"./configurations.md\">pixiu配置参数详解</a></h4>\n<p>准备 <code>log.yml</code> 和 <code>conf.yaml</code> 配置文件，将这两个配置文件在pixiu启动的时候挂在到本地</p>\n<h3>3、启动 pixiu</h3>\n<p><strong>前台启动</strong>：，可方便查看服务信息运行是否正常</p>\n<pre><code class=\"language-shell\">docker run --name dubbo-go-pixiu -p 8883:8883 \\\n    -v /yourpath/conf.yaml:/etc/pixiu/conf.yaml \\\n    -v /yourpath/log.yml:/etc/pixiu/log.yml \\\n    apache/dubbo-go-pixiu:latest\n</code></pre>\n<p><strong>后台启动</strong>：</p>\n<pre><code class=\"language-shell\">docker run -itd --name dubbo-go-pixiu -p 8883:8883 \\\n    -v /yourpath/conf.yaml:/etc/pixiu/conf.yaml \\\n    -v /yourpath/log.yml:/etc/pixiu/log.yml \\\n    apache/dubbo-go-pixiu:latest\n</code></pre>\n<blockquote>\n<p>注：</p>\n<p>(1) <code>--name</code>命令后面的dubbo-go-pixiu为你的pixiu实例的名称，可自行修改</p>\n<p>(2)命令中的<code>/yourpath/**</code>路径为你本地存放pixiu配置文件的绝对路径</p>\n</blockquote>\n<h3>4、查看 pixiu 实例</h3>\n<p><code>docker ps | grep dubbo-go-pixiu</code> 正在运行的pixiu实例</p>\n<p><code>docker exec -it dubbo-go-pixiu /bin/bash</code> 进入pixiu</p>\n<h3>5、停止pixiu</h3>\n<p><code>docker stop dubbo-go-pixiu</code> 停止pixiu</p>\n<p><code>docker restart dubbo-go-pixiu</code> 重启pixiu</p>\n<h2>二、源码构建部署</h2>\n<p>注：首先确认本机已经安装好 golang 1.15+ 开发环境，启用<code>go mod</code></p>\n<h3>1、下载 pixiu 源码到本地</h3>\n<p><code>git clone git@github.com:apache/dubbo-go-pixiu.git</code></p>\n<h3>2、配置pixiu</h3>\n<h4><a href=\"./configurations.md\">pixiu配置参数详解</a></h4>\n<p>进入到pixiu的源码目录<code>cd dubbo-go-pixiu/</code>,在<code>dubbo-go-pixiu/configs/</code>目录下\n修改配置文件<code>conf.yaml</code>和<code>log.yml</code></p>\n<h3>3、编译构建</h3>\n<p>在pixiu的源码目录<code>dubbo-go-pixiu/</code>下执行<code>make build</code>\n: 构建完成会在当前目录下生成名为<code>dubbo-go-pixiu</code>的可执行文件</p>\n<h3>4、启动服务与运行示例</h3>\n<p>在当前目录下<code>make run</code> 可根据你当前的配置直接启动pixiu服务</p>\n<p><a href=\"./quickstart.md\">运行示例参考</a></p>\n",
   "link": "/zh-cn/docs/user/deployment.html",
-  "meta": {}
+  "meta": {
+    "title": "Pixiu 部署文档",
+    "keywords": "Pixiu 部署",
+    "description": "Pixiu 部署文档"
+  }
 }
